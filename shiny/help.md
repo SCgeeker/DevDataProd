@@ -1,0 +1,5 @@
+### Source of raw data
+In this report [Starbucks in India now!! Should they produce India coffee beans?](http://opendataforafrica.org/ozaowvd/starbucks-is-in-india-now-should-they-procure-indian-coffee-beans), the authors analyze the general production of India coffee. They made up their analysis from [the open data stored in Coffee Board of India](http://opendataforafrica.org/CBIMISUCBAPHLE2012). This app was designed to explore the seperated raw data sets by family of coffee beans (Arabica and Robusta).
+
+### How to use this app 
+Who are interested in this data will design more advanced analysis. This app helps you explore the raw data sets about Arabica and Robusta in Indiea coffee market. You will realize which regions and which variables constructed in a available data set for the advanced analysis.

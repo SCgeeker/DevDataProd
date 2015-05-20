@@ -1,0 +1,5 @@
+Explorary analysis on Traditional Chinese Naming Data
+
+
+library(PerformanceAnalytics)
+chart.Correlation(iris[-5], bg=iris$Species, pch=21)

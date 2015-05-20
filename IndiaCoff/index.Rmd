@@ -52,22 +52,25 @@ You will explore the overall change from 1950 to 2013:
 ```{r coff1, results='hide', tidy=FALSE, message=FALSE}
 require('rCharts')
 CoffIndia <- CoffData[ (CoffData$variable == variableNAMES[13]) & (CoffData$region == "India"), ]
-CoffIndia1 <- data.frame(Year = levels(as.factor(CoffIndia$Year)), Arabica = levels(as.factor(CoffIndia$Value[CoffIndia$Category == "Arabica"])), Robusta = levels(as.factor(CoffIndia$Value[CoffIndia$Category == "Robusta"])) )
+CoffIndia1 <- data.frame(Year = CoffIndia$Year, Arabica = CoffIndia$Value[CoffIndia$Category == "Arabica"], Robusta = CoffIndia$Value[CoffIndia$Category == "Robusta"] )
 Coff1 <- mPlot(x = "Year", y = c("Arabica", "Robusta"), type = "Line", data = CoffIndia1)
 Coff1$set(pointSize = 0, lineWidth = 1)
-Coff1$save('coff1.html')
-cat('<iframe src="coff1.html" width=100%, height=100%></iframe>')
+#Coff1$print('chart1')
+Coff1$save("coff1.html")
+cat('<iframe src="../IndiCoff/coff1.html" width=100%, height=100%></iframe>')
 ```
 You will compare the production in the primary areas during the least two years:  
 ```{r coff2, results='hide', tidy=FALSE, message=FALSE}
+require(rCharts)
 CoffProv <- CoffData[ (CoffData$variable == variableNAMES[13]) & 
                           (CoffData$region == PriRegions[1] | 
                            CoffData$region == PriRegions[2] |
                            CoffData$region == PriRegions[3]), ]
 CoffProv$region_year <- paste0(CoffProv$region,"(",CoffProv$Year,")")
 Coff2 <- nPlot(Value ~ region_year, group = "Category", data = CoffProv, type = "multiBarChart")
+#Coff2$print("chart1")
 Coff2$save("coff2.html")
-cat('<iframe src="coff2.html" width=100%, height=100%></iframe>')
+cat('<iframe src="../IndiCoff/coff2.html" width=100%, height=100%></iframe>')
 ```
 
 ---

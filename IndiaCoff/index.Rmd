@@ -6,11 +6,11 @@ job         :
 framework   : io2012        # 
 highlighter : highlight.js  # 
 hitheme     : tomorrow      # 
-url:
-    lib: ../librariesNew #Remove new if using old slidify
-widgets     : []            # 
+url         : {lib: "libraries"}
+widgets     : [bootstrap, interactive]            # 
+ext_widgets : {rCharts: ["libraries/widgets/nvd3", "/libraries/widgets/leaflet"]}
 mode        : selfcontained # 
-ext_widgets : {rCharts: ["/libraries/highcharts","/libraries/nvd3", "/libraries/morris","/libraries/leaflet", "/libraries/rickshaw"]}
+# {rCharts: ["/librariesNew/highcharts","/librariesNew/nvd3", "/librariesNew/morris","/libraries/leaflet", "/librariesNew/rickshaw"]}
 ---
 ```{r setup, cache = F, echo = F, message = F, warning = F, tidy = F, results='hide'}
 # make this an external chunk that can be included in any file

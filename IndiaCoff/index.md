@@ -27,7 +27,7 @@ You will explore the overall change from 1950 to 2013:
 ```r
 require('rCharts')
 CoffIndia <- CoffData[ (CoffData$variable == variableNAMES[13]) & (CoffData$region == "India"), ]
-CoffIndia1 <- data.frame(Year = CoffIndia$Time, Arabica = CoffIndia$Value[CoffIndia$Category == "Arabica"], Robusta = CoffIndia$Value[CoffIndia$Category == "Robusta"] )
+CoffIndia1 <- data.frame(Year = as.factor(CoffIndia$Time[CoffIndia$Category == "Arabica"]), Arabica = CoffIndia$Value[CoffIndia$Category == "Arabica"], Robusta = CoffIndia$Value[CoffIndia$Category == "Robusta"] )
 Coff1 <- mPlot(x = "Year", y = c("Arabica", "Robusta"), type = "Line", data = CoffIndia1)
 Coff1$set(pointSize = 0, lineWidth = 2)
 #Coff1$print("chart1")

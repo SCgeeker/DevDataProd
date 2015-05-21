@@ -80,7 +80,7 @@
 
 <pre><code class="r">require(&#39;rCharts&#39;)
 CoffIndia &lt;- CoffData[ (CoffData$variable == variableNAMES[13]) &amp; (CoffData$region == &quot;India&quot;), ]
-CoffIndia1 &lt;- data.frame(Year = CoffIndia$Time, Arabica = CoffIndia$Value[CoffIndia$Category == &quot;Arabica&quot;], Robusta = CoffIndia$Value[CoffIndia$Category == &quot;Robusta&quot;] )
+CoffIndia1 &lt;- data.frame(Year = as.factor(CoffIndia$Time[CoffIndia$Category == &quot;Arabica&quot;]), Arabica = CoffIndia$Value[CoffIndia$Category == &quot;Arabica&quot;], Robusta = CoffIndia$Value[CoffIndia$Category == &quot;Robusta&quot;] )
 Coff1 &lt;- mPlot(x = &quot;Year&quot;, y = c(&quot;Arabica&quot;, &quot;Robusta&quot;), type = &quot;Line&quot;, data = CoffIndia1)
 Coff1$set(pointSize = 0, lineWidth = 2)
 #Coff1$print(&quot;chart1&quot;)

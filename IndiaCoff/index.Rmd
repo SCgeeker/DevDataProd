@@ -10,7 +10,6 @@ url         : {lib: "libraries"}
 widgets     : [bootstrap, interactive]            # 
 ext_widgets : {rCharts: ["libraries/widgets/nvd3", "/libraries/widgets/leaflet"]}
 mode        : selfcontained # 
-# {rCharts: ["/librariesNew/highcharts","/librariesNew/nvd3", "/librariesNew/morris","/libraries/leaflet", "/librariesNew/rickshaw"]}
 ---
 ```{r setup, cache = F, echo = F, message = F, warning = F, tidy = F, results='hide'}
 # make this an external chunk that can be included in any file
@@ -63,7 +62,7 @@ You will explore the overall change from 1950 to 2013:
 ```{r coff1, results='hide', tidy=FALSE, message=FALSE, cache=TRUE}
 require('rCharts')
 CoffIndia <- CoffData[ (CoffData$variable == variableNAMES[13]) & (CoffData$region == "India"), ]
-CoffIndia1 <- data.frame(Year = CoffIndia$Time, Arabica = CoffIndia$Value[CoffIndia$Category == "Arabica"], Robusta = CoffIndia$Value[CoffIndia$Category == "Robusta"] )
+CoffIndia1 <- data.frame(Year = as.factor(CoffIndia$Time[CoffIndia$Category == "Arabica"]), Arabica = CoffIndia$Value[CoffIndia$Category == "Arabica"], Robusta = CoffIndia$Value[CoffIndia$Category == "Robusta"] )
 Coff1 <- mPlot(x = "Year", y = c("Arabica", "Robusta"), type = "Line", data = CoffIndia1)
 Coff1$set(pointSize = 0, lineWidth = 2)
 #Coff1$print("chart1")

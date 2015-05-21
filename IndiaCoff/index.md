@@ -1,7 +1,7 @@
 ---
 title       : Explore India Coffee Production 1950 - 2013
 subtitle    : Course Project for Developing Data Products
-author      : Sau-Chin Chen
+author      :
 job         : 
 framework   : io2012        # 
 highlighter : highlight.js  # 
@@ -10,7 +10,9 @@ url:
     lib: ../librariesNew #Remove new if using old slidify
 widgets     : []            # 
 mode        : selfcontained # 
+ext_widgets : {rCharts: ["/libraries/highcharts","/libraries/nvd3", "/libraries/morris","/libraries/leaflet", "/libraries/rickshaw"]}
 ---
+
 ## Background
 1. **Arabica** and **Robusta** are the two primary spices in the world wide coffee market.
 2. We explore the coffee production in South India from [Open Data for Africa](http://opendataforafrica.org/). Check our R markdown you will see [the codes](index.Rmd) accessed the raw data.
@@ -25,23 +27,22 @@ You will explore the overall change from 1950 to 2013:
 ```r
 require('rCharts')
 CoffIndia <- CoffData[ (CoffData$variable == variableNAMES[13]) & (CoffData$region == "India"), ]
-CoffIndia1 <- data.frame(Year = CoffIndia$Year, Arabica = CoffIndia$Value[CoffIndia$Category == "Arabica"], Robusta = CoffIndia$Value[CoffIndia$Category == "Robusta"] )
+CoffIndia1 <- data.frame(Year = CoffIndia$Time, Arabica = CoffIndia$Value[CoffIndia$Category == "Arabica"], Robusta = CoffIndia$Value[CoffIndia$Category == "Robusta"] )
 Coff1 <- mPlot(x = "Year", y = c("Arabica", "Robusta"), type = "Line", data = CoffIndia1)
-Coff1$set(pointSize = 0, lineWidth = 1)
-#Coff1$print('chart1')
+Coff1$set(pointSize = 0, lineWidth = 2)
+#Coff1$print("chart1")
 Coff1$save("coff1.html")
 cat('<iframe src="coff1.html" width=100%, height=100%></iframe>')
 ```
 You will compare the production in the primary areas during the least two years:  
 
 ```r
-require(rCharts)
 CoffProv <- CoffData[ (CoffData$variable == variableNAMES[13]) & 
                           (CoffData$region == PriRegions[1] | 
                            CoffData$region == PriRegions[2] |
                            CoffData$region == PriRegions[3]), ]
-CoffProv$region_year <- paste0(CoffProv$region,"(",CoffProv$Year,")")
-Coff2 <- nPlot(Value ~ region_year, group = "Category", data = CoffProv, type = "multiBarChart")
+CoffProv$region_year <- paste0(CoffProv$region,"(",CoffProv$Time,")")
+Coff2 <- nPlot(Value ~ region_year, group = "Category", data = CoffProv, type = "multiBarChart") 
 #Coff2$print("chart1")
 Coff2$save("coff2.html")
 cat('<iframe src="coff2.html" width=100%, height=100%></iframe>')

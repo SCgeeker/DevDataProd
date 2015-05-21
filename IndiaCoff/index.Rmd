@@ -1,7 +1,7 @@
 ---
 title       : Explore India Coffee Production 1950 - 2013
 subtitle    : Course Project for Developing Data Products
-author      : Sau-Chin Chen
+author      :
 job         : 
 framework   : io2012        # 
 highlighter : highlight.js  # 
@@ -10,7 +10,27 @@ url:
     lib: ../librariesNew #Remove new if using old slidify
 widgets     : []            # 
 mode        : selfcontained # 
+ext_widgets : {rCharts: ["/libraries/highcharts","/libraries/nvd3", "/libraries/morris","/libraries/leaflet", "/libraries/rickshaw"]}
 ---
+```{r setup, cache = F, echo = F, message = F, warning = F, tidy = F, results='hide'}
+# make this an external chunk that can be included in any file
+library(knitr)
+options(width = 100)
+opts_chunk$set(message = F, error = F, warning = F, comment = NA, fig.align = 'center', dpi = 100, tidy = F, cache.path = '.cache/', fig.path = 'fig/')
+
+## options(xtable.type = 'html')
+
+CoffData <- read.csv("CoffData.csv")[,-1]
+
+## Set up the index of data set
+ReginIDS <- levels(as.factor(CoffData$RegionId))
+ReginNAMES <- levels(as.factor(CoffData$region))
+PriRegions <- levels(as.factor(CoffData$region))[c(7,8,17)]
+SubRegions <- levels(as.factor(CoffData$region))[-c(6,7,8,12,13,17,18)]
+variableNAMES <- levels(as.factor(CoffData$variable))
+##  variable 1, 13, 14 are the critical dependent variables
+##  "Bearing Area (ha.)" , Production of Coffee" , "Productivity (kg/ha)"
+```
 ## Background
 1. **Arabica** and **Robusta** are the two primary spices in the world wide coffee market.
 2. We explore the coffee production in South India from [Open Data for Africa](http://opendataforafrica.org/). Check our R markdown you will see [the codes](index.Rmd) accessed the raw data.
@@ -33,15 +53,6 @@ OBSRobu$variable <- gsub(", Robusta", "", OBSRobu$variable)
 OBSRobu <- data.frame(OBSRobu, Category = rep("Robusta", dim(OBSRobu)[1]))
 CoffData <- rbind(OBSArab, OBSRobu)
 rm(OBSArab, OBSRobu)
-
-## 3. Set up the index of data set
-ReginIDS <- levels(as.factor(CoffData$RegionId))
-ReginNAMES <- levels(as.factor(CoffData$region))
-PriRegions <- levels(as.factor(CoffData$region))[c(7,8,17)]
-SubRegions <- levels(as.factor(CoffData$region))[-c(6,7,8,12,13,17,18)]
-variableNAMES <- levels(as.factor(CoffData$variable))
-##  variable 1, 13, 14 are the critical dependent variables
-##  "Bearing Area (ha.)" , Production of Coffee" , "Productivity (kg/ha)"
 ```
 3. In the report [Starbucks in India now!! Should they produce India coffee beans?](http://opendataforafrica.org/ozaowvd/starbucks-is-in-india-now-should-they-procure-indian-coffee-beans), it is showed that India has a increasing production for Robusta since 1990. The production of Arabica has changed smoothly so far.
 <iframe src="http://opendataforafrica.org/resource/embed/ozaowvd/first?noHeader=1" style="height:300px; width:800px" scrolling="no" frameborder="0"/></iframe>  
@@ -49,25 +60,24 @@ variableNAMES <- levels(as.factor(CoffData$variable))
 ---
 ## Codes for this project
 You will explore the overall change from 1950 to 2013:  
-```{r coff1, results='hide', tidy=FALSE, message=FALSE}
+```{r coff1, results='hide', tidy=FALSE, message=FALSE, cache=TRUE}
 require('rCharts')
 CoffIndia <- CoffData[ (CoffData$variable == variableNAMES[13]) & (CoffData$region == "India"), ]
-CoffIndia1 <- data.frame(Year = CoffIndia$Year, Arabica = CoffIndia$Value[CoffIndia$Category == "Arabica"], Robusta = CoffIndia$Value[CoffIndia$Category == "Robusta"] )
+CoffIndia1 <- data.frame(Year = CoffIndia$Time, Arabica = CoffIndia$Value[CoffIndia$Category == "Arabica"], Robusta = CoffIndia$Value[CoffIndia$Category == "Robusta"] )
 Coff1 <- mPlot(x = "Year", y = c("Arabica", "Robusta"), type = "Line", data = CoffIndia1)
-Coff1$set(pointSize = 0, lineWidth = 1)
-#Coff1$print('chart1')
+Coff1$set(pointSize = 0, lineWidth = 2)
+#Coff1$print("chart1")
 Coff1$save("coff1.html")
 cat('<iframe src="coff1.html" width=100%, height=100%></iframe>')
 ```
 You will compare the production in the primary areas during the least two years:  
-```{r coff2, results='hide', tidy=FALSE, message=FALSE}
-require(rCharts)
+```{r coff2, results='hide', tidy=FALSE, message=FALSE, cache=TRUE}
 CoffProv <- CoffData[ (CoffData$variable == variableNAMES[13]) & 
                           (CoffData$region == PriRegions[1] | 
                            CoffData$region == PriRegions[2] |
                            CoffData$region == PriRegions[3]), ]
-CoffProv$region_year <- paste0(CoffProv$region,"(",CoffProv$Year,")")
-Coff2 <- nPlot(Value ~ region_year, group = "Category", data = CoffProv, type = "multiBarChart")
+CoffProv$region_year <- paste0(CoffProv$region,"(",CoffProv$Time,")")
+Coff2 <- nPlot(Value ~ region_year, group = "Category", data = CoffProv, type = "multiBarChart") 
 #Coff2$print("chart1")
 Coff2$save("coff2.html")
 cat('<iframe src="coff2.html" width=100%, height=100%></iframe>')
@@ -75,10 +85,10 @@ cat('<iframe src="coff2.html" width=100%, height=100%></iframe>')
 
 ---
 ## Coffee production through 1951-2012
-```{r ref.label = 'coff1', results='asis', echo=FALSE}
+```{r ref.label = 'coff1', results='asis', echo=FALSE, cache=TRUE}
 ```
 
 ---
 ## Coffee productino in the primary areas
-```{r ref.label = 'coff2', results='asis', echo=FALSE}
+```{r ref.label = 'coff2', results='asis', echo=FALSE, cache=TRUE}
 ```
